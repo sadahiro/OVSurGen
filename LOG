@@ -1,0 +1,105 @@
+LOG
+
+ Created on: Jan 20, 2010
+     Author: makoto
+
+  OVSurGen
+
+  author:
+  Makoto Sadahiro
+   makoto@tacc.utexas.edu
+
+  This tool is developed for Open Video Digital Library Toolkit Project to parse input video files.
+  Dr.Gary Geisler (Univ Texas at Austin, school of information) is the PI for the entire project.
+
+  functionality:
+  Scene change detection, meta image/movie files generation
+  This tool has dependencies to ffmpeg and gd libraries
+
+  release:
+   Oct 2008 -primary plan
+   Apr 2009 -postponed
+   Dec 2009 -grant deadline
+
+  log:
+  Sep 17th 2008
+  - scaling thumbnail with percentage is complete
+  - user definable output movie format, including flash video
+  Sep 23rd 2008
+  - img_convert is updated to sws_scale as img_convert was deprecated
+  Sep 26th 2008
+  - flexible argument input
+  - user definable in/out file name
+  Sep 29th 2008
+  - feeding resize info either or both x, y, percentage, or by default
+  - some of boundary checking for input is done
+  Oct 08th 2008
+  - error on frameFinished, returned from  avcodec_decode_video, solved
+  Feb 17th 2009
+  - filename by frame count and sec/msec added
+  Feb 18th 2009
+  - starting OOD migration
+  Mar 20th 2009
+  - completed first beta version with initial requirements
+  May 14th 2009
+  - OVSurGen assumes directory structures to parse files
+  - FLV with audio has difficulty so it is postponed
+  May 18th 2009
+  - parsing path support for any target directory
+  Jun 12th 2009
+  - animGIF completed
+  Jun 24th 2009
+  - sc correction for first frame
+  Jul 03rd 2009
+  - serial version complete
+  - sending to fusion for testing
+  Jul 04th 2009
+  - if ffmpeg-0.5 does not cleanly compile on 64bit intel linux, use following:
+     configure --enable-gpl --enable-nonfree --disable-stripping --disable-optimizations
+      --disable-demuxer=nsv
+  Aug 07th 2009
+  - syncing back from 32bit intel version to 64bit intel version
+  Sep 24th 2009
+  - force16 option
+  Oct 23rd 2009
+  - improved memory use
+  Oct 26th 2009
+  - dark frames deranked
+  Nov 09th 2009
+  - dark frames deranking by user option
+  Nov 26th 2009
+  - memory consumption improved 40% efficiency
+  Dec 03rd 2009
+  - support for png and gif in addition to jpg and agif
+  Dec 15th 2009
+  - memory leak from filenames fixed
+  Jan 14th 2010
+  - displaying summary of process at the end of process
+  Jan 19th 2010
+  - specifing tooBright/Dark frames elimination by percentage(float)
+  Jan 20th 2010
+  - beta ready  
+  Mar 15th 2010
+  - beta 1.0: using systemwide-install of gd and ffmpeg
+
+  todo:
+
+  - mediaConfig.large is not used. veryfy and delete it
+
+  - need a bit more fine tuning on auto-config of skip frames
+      driven from fps which I do not get right number
+  - create confirmation html in parse directory to show resulting files
+  - reorganize and rewrite entire code for open source
+  - implement overflow prevention
+
+  - logic for src frame buffer size prediction
+
+  - find out if different still format will affect fast forward quality
+  - normalize and crop the hist for better sc_detect
+  - gui
+  - fix sliding color of output mov.
+  - scene change:
+  		block of 8x8 or so, pattern match sliding neighbors if histogram is close enough
+  - eliminate scene detected frame of initial black screen
+
+  

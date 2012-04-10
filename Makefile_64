@@ -1,0 +1,29 @@
+GD_SRC = ../gd-2.0.35
+FF_SRC = ../ffmpeg-0.5
+
+INCLUDE = -I$(GD_SRC) -I$(FF_SRC)/libswscale -I$(FF_SRC)/libavutil -I$(FF_SRC) -I$(FF_SRC)/libavformat -I$(FF_SRC)/libavcodec
+
+LDLIBS = -L$(GD_SRC)/.libs -L$(FF_SRC)/libswscale -L$(FF_SRC)/libavcodec -L$(FF_SRC)/libavformat -L$(FF_SRC)/libavutil -lswscale -lavformat -lavcodec -lavutil -lgd -lpng -ljpeg -lz -lbz2
+
+CFLAGS = -g -Wall -Wno-deprecated -static
+
+CC = gcc
+C++ = g++
+
+PROG = ovsurgen
+OBJS = main.o mediaConfig.o mediaParse.o mediaFrame.o mediaAnalysis.o
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(C++) $(OBJS) $(LDLIBS) -o $(PROG)
+
+%.o: %.c $(HDRS) 
+	$(CC) -c $(CFLAGS) $(INCLUDE) $<
+%.o: %.cc $(HDRS) 
+	$(C++) -c $(CFLAGS) $(INCLUDE) $<
+%.o: %.cpp $(HDRS) 
+	$(C++) -c $(CFLAGS) $(INCLUDE) $<
+
+clean:
+	rm *.o $(PROG)

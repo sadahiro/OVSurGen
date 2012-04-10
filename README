@@ -1,0 +1,94 @@
+README for OVSurGen
+date: March 15th 2010
+version: 1.0 (Beta)
+
+about OVSurGen:
+
+OVSurGen is a CLI tool to parse video files for analyzing/reviewing.  Audio is currently not supported.
+This CLI tool was created to work as back end engine for OpenVideoProject video server.  For further info: http://www.open-video.org/
+
+
+
+dependency:
+
+OVSurGen uses ffmpeg, gdLibrary, and few more basic libraries.
+
+  ffmpeg, gd, libpng, libjpeg, zlib, bzip2, freetype
+
+It is recommended to fully install all libs that are:
+
+libname
+libname-libs
+libname-devel
+
+*-devel is particularly very importnat ones as OVSurgen will link against them.
+
+
+
+building:
+
+This distribution assume you are installing the OVSurGen in /usr/local/bin, so there is no ./configure.
+You can simply type:
+
+ make
+
+to build ovsurgen, and
+
+ sudo make install
+
+to install it in /usr/local/bin with right file permission.  You are welcome to just build and copy it by hand.
+
+
+
+running OVSurGen:
+
+OVSurGen expects a valid movie file for source input.  Streams after the first stream will be ignored.  Even not guaranteed, it should accept variety of format/codec.  Common formats, like jpeg/jpg, gif(animatedGIF), mpeg/mpg, flv, and quicktime (.mov) are known to work.
+You may specify input and output files as path+filename.extension form.  This allows uses to read from and write to anywhere on file system.
+OVSurGen detemins task type by file extension of output file and options specified.  For example, if you specify interval to be 1 and some range of time_segment, it will output excerpt.
+OVSurGen will insert task type or time stamps within output filename depending on the task type.  For example, running the tool with default setting with output filename to be "output.flv", will produce "output-ff64.flv" as an output.
+Specifying "jpeg/jpg" or "gif" as output file extension causes to spool series of keyframes according to maximam scene change detectin count setup.  Each files will be timestamped by seconds.miliseconds format.
+Invoking method is as following:
+/*
+Usage: ovsurgen -version | -v | -help | --help                                  
+       ovsurgen [options] -if [path]filename_in.extension [options]             
+                          -of [path]filename_out.extension [options]            
+                                                                                
+mutually exclusive options:                                                     
+-version | -v               displays build version                              
+-help|--help                displays this help                                  
+                                                                                
+Simultaneous options:                                                           
+-verbose                                                                        
+-if filename.file_extension input filename                                      
+-of filename.file_extension output filename                                     
+                            supported output file types are:                    
+                             movie files-        mov, mpeg, mpg etc             
+                             image files-        gif|jpeg|jpg                   
+                                                 (gif not supported yet)        
+                             moving image file-  agif(animated gif)             
+-interval count             fast forward frame interval count                   
+                            default count is 64                                 
+-time_segment start end     specifies start and end of movie in seconds         
+-scene count                specifies maximum count for scene change            
+-threshold_d percentage     specifies threshold for frames too dark             
+                            percentage from complete black (less than 100.0)    
+                            good start point is 2.0                             
+-threshold_b percentage     specifies threshold for frames too bright           
+                            percentage from complete white (less than 100.0)    
+                            good start point is 2.0                             
+-scale_ratio ratio          output scale 0.01-1.00                              
+-scale_x width              output x-dimension by pixel count                   
+-scale_y height             output y-dimension by pixel count                   
+                            later scale factor in user  argument has higher     
+                            precedence, and aspect ratio is automatically       
+                            preserved unless both scale_x and scale_y are       
+                            specified simultaneously                            
+-force16                    forces scale to be divisible by 16                  
+                            use this option when you see shifted color          
+*/
+
+An example of invocation will be: ovsurgen -if input.mpg -of output.flv -interval 64 -scene 24 -scale_ratio 1.0
+This is an queivalent to:         ovsurgen -if input.mpg -of output.flv
+These options for interval, format, scene, and scale are default if you do not invoke the tool with those options.
+
+// end of README for OVSurGen
